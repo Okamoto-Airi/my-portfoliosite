@@ -143,23 +143,25 @@ export function ProductsSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               onClick={() => setSelectedProduct(product)}
-              className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all cursor-pointer border-2 border-transparent hover:border-[#FFB6C1] group"
+              className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all cursor-pointer border-2 border-transparent hover:border-[#FFB6C1] group overflow-hidden"
             >
-              <div className="mb-4 overflow-hidden rounded-xl">
+              <div className="overflow-hidden">
                 <img
                   src={product.thumbnail}
                   alt={`${product.name}のサムネイル`}
-                  className="h-40 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="h-44 w-full object-cover transition-transform duration-300 group-hover:scale-105"
                   loading="lazy"
                 />
               </div>
-              <h3 className="text-xl font-bold mb-2 text-[#333333]">{product.name}</h3>
-              <p className="text-[#666666] mb-4 line-clamp-2">{product.description}</p>
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-[#999999]">{product.date}</span>
-                <span className="px-3 py-1 bg-[#FFD6DC] text-[#333333] rounded-full">
-                  {product.type}
-                </span>
+              <div className="p-6">
+                <h3 className="text-xl font-bold mb-2 text-[#333333]">{product.name}</h3>
+                <p className="text-[#666666] mb-4 line-clamp-2">{product.description}</p>
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-[#999999]">{product.date}</span>
+                  <span className="px-3 py-1 bg-[#FFD6DC] text-[#333333] rounded-full">
+                    {product.type}
+                  </span>
+                </div>
               </div>
             </motion.div>
           ))}
@@ -170,25 +172,23 @@ export function ProductsSection() {
           <Dialog.Portal>
             <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50" />
             <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl max-w-3xl w-[90vw] max-h-[85vh] z-50 shadow-2xl overflow-hidden flex flex-col">
-              <div className="flex justify-between items-start p-8 pb-4 flex-shrink-0">
-                <div className="flex items-center gap-4">
-                  {selectedProduct && (
-                    <img
-                      src={selectedProduct.thumbnail}
-                      alt={`${selectedProduct.name}のサムネイル`}
-                      className="h-20 w-20 rounded-xl object-cover"
-                    />
-                  )}
-                  <Dialog.Title className="text-3xl font-bold text-[#333333]">
-                    {selectedProduct?.name}
-                  </Dialog.Title>
-                </div>
-                <Dialog.Close className="text-[#999999] hover:text-[#333333] transition-colors">
+              <div className="relative flex-shrink-0">
+                {selectedProduct && (
+                  <img
+                    src={selectedProduct.thumbnail}
+                    alt={`${selectedProduct.name}のサムネイル`}
+                    className="h-56 w-full object-cover"
+                  />
+                )}
+                <Dialog.Close className="absolute top-4 right-4 text-white/80 hover:text-white transition-colors">
                   <X size={32} />
                 </Dialog.Close>
               </div>
 
-              <div className="space-y-6 px-8 pb-8 overflow-y-auto">
+              <div className="space-y-6 px-8 pb-8 pt-6 overflow-y-auto">
+                <Dialog.Title className="text-3xl font-bold text-[#333333]">
+                  {selectedProduct?.name}
+                </Dialog.Title>
                 <div className="flex flex-wrap gap-4">
                   {selectedProduct?.deployUrl && (
                     <a
