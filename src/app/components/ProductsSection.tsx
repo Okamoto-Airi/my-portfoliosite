@@ -172,23 +172,16 @@ export function ProductsSection() {
           <Dialog.Portal>
             <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50" />
             <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl max-w-3xl w-[90vw] max-h-[85vh] z-50 shadow-2xl overflow-hidden flex flex-col">
-              <div className="relative flex-shrink-0">
-                {selectedProduct && (
-                  <img
-                    src={selectedProduct.thumbnail}
-                    alt={`${selectedProduct.name}のサムネイル`}
-                    className="h-56 w-full object-cover"
-                  />
-                )}
-                <Dialog.Close className="absolute top-4 right-4 text-white/80 hover:text-white transition-colors">
+              <div className="flex justify-between items-start px-8 pt-8 pb-2 flex-shrink-0">
+                <Dialog.Title className="text-3xl font-bold text-[#333333]">
+                  {selectedProduct?.name}
+                </Dialog.Title>
+                <Dialog.Close className="text-[#999999] hover:text-[#333333] transition-colors">
                   <X size={32} />
                 </Dialog.Close>
               </div>
 
-              <div className="space-y-6 px-8 pb-8 pt-6 overflow-y-auto">
-                <Dialog.Title className="text-3xl font-bold text-[#333333]">
-                  {selectedProduct?.name}
-                </Dialog.Title>
+              <div className="space-y-6 px-8 pb-8 overflow-y-auto">
                 <div className="flex flex-wrap gap-4">
                   {selectedProduct?.deployUrl && (
                     <a
