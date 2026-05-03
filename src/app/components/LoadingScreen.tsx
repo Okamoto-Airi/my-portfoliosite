@@ -51,20 +51,6 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
           </div>
           <p className="text-2xl font-medium text-[#FFB6C1]">{progress}%</p>
         </div>
-
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-          className="text-6xl"
-        >
-          🌸
-        </motion.div>
       </motion.div>
     </motion.div>
   );
