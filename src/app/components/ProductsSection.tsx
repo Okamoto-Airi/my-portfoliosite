@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { motion } from 'motion/react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { X, ExternalLink, Github, Users, Calendar, Code } from 'lucide-react';
+import shootingGameThumb from '../../images/products/shooting-game.png';
+import mySiteThumb from '../../images/products/my-site.png';
+import traceMasterThumb from '../../images/products/trace-master.png';
 
 interface Product {
   id: number;
@@ -11,11 +14,11 @@ interface Product {
   type: 'チーム開発' | '個人開発';
   thumbnail: string;
   deployUrl?: string;
-  githubUrls: string[];
+  githubUrls?: ({ label: string; url: string } | '非公開')[];
   background: string;
   features: string;
   teamSize?: number;
-  responsibilities: string;
+  responsibilities?: string;
   technologies: string[];
   duration: string;
 }
@@ -23,47 +26,52 @@ interface Product {
 const products: Product[] = [
   {
     id: 1,
-    name: 'サンプルプロジェクト1',
-    description: 'Web技術を活用した学習支援アプリケーション',
-    date: '2025年3月',
+    name: 'シューティングゲーム',
+    description: 'Pygameで作成した2Dシューティングゲーム。',
+    date: '2025年7月～2025年8月',
     type: 'チーム開発',
-    thumbnail: '🎨',
-    deployUrl: 'https://example.com',
-    githubUrls: ['https://github.com/example/project1'],
-    background: 'オンライン学習の効率化を目的として開発しました。',
-    features: 'リアルタイムチャット、進捗管理、学習記録の可視化',
-    teamSize: 4,
-    responsibilities: 'フロントエンド開発（React）、UIデザイン',
-    technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Firebase'],
-    duration: '2ヶ月',
+    thumbnail: shootingGameThumb,
+    deployUrl: 'https://okamoto-airi.github.io/pygame-site/',
+    githubUrls: [
+      { label: 'Webサイト', url: 'https://github.com/Okamoto-Airi/pygame-site' },
+      { label: 'レベル1', url: 'https://github.com/Okamoto-Airi/web-pygame_level1_PC' },
+      { label: 'レベル2', url: 'https://github.com/Okamoto-Airi/web-pygame_level2-PC' },
+      { label: 'レベル3', url: 'https://github.com/Okamoto-Airi/web-pygame_level3-PC' }
+    ],
+    background: 'チーム開発演習として、チームメンバー全員ができるPythonを使って2Dシューティングゲームを制作しました。',
+    features: 'プレイヤーキャラクターの移動と攻撃、敵キャラクターの出現と行動パターン、スコアリングシステム、複数レベルの実装と難易度調整',
+    teamSize: 5,
+    responsibilities: 'ゲーム開発全般（設計・実装・テスト）',
+    technologies: ['Pygame', 'Pygbag', 'GitHub Pages'],
+    duration: '1.5ヶ月',
   },
   {
     id: 2,
-    name: 'サンプルプロジェクト2',
-    description: 'タスク管理をシンプルにするWebアプリ',
-    date: '2025年1月',
+    name: 'My Site',
+    description: '自己紹介サイト',
+    date: '2026年4月',
     type: '個人開発',
-    thumbnail: '📝',
-    githubUrls: ['非公開'],
-    background: '日々のタスク管理をもっと手軽にしたいという思いから開発しました。',
-    features: 'ドラッグ&ドロップでタスクを整理、期限通知機能',
-    responsibilities: '全体設計、実装、デプロイまで全て担当',
-    technologies: ['React', 'Node.js', 'MongoDB'],
-    duration: '3週間',
+    thumbnail: mySiteThumb,
+    githubUrls: [{ label: 'GitHub', url: 'https://github.com/example/project2' }],
+    background: 'React・TypeScript・Tailwind CSSの学習を兼ねて、自身のポートフォリオサイトを作成しました。',
+    features: 'Product紹介、レスポンシブデザイン',
+    technologies: ['React', 'TypeScript', 'Tailwind CSS'],
+    duration: '1週間',
   },
   {
     id: 3,
-    name: 'サンプルプロジェクト3',
-    description: 'レスポンシブ対応のポートフォリオサイト',
-    date: '2024年12月',
-    type: '個人開発',
-    thumbnail: '🌟',
-    deployUrl: 'https://example.com/portfolio',
-    githubUrls: ['https://github.com/example/portfolio'],
-    background: '自己紹介と作品を効果的に見せるために制作しました。',
-    features: 'スムーズなアニメーション、ダークモード対応',
-    responsibilities: 'デザイン、コーディング、デプロイ',
-    technologies: ['Next.js', 'Tailwind CSS', 'Framer Motion'],
+    name: 'TraceMaster',
+    description: '基本情報技術者試験科目B(アルゴリズム)の学習を支援するWebアプリケーション。',
+    date: '2025年12月～2026年1月',
+    type: 'チーム開発',
+    thumbnail: traceMasterThumb,
+    deployUrl: 'https://pear0123.pythonanywhere.com/',
+    githubUrls: [{ label: 'GitHub', url: 'https://github.com/Okamoto-Airi/fe_trace_app' }],
+    background: '基本情報技術者試験のアルゴリズム分野の学習を支援するため、チームでWebアプリケーションを開発しました。',
+    features: 'ログイン機能、レベル別トレース演習、学習履歴、称号機能',
+    teamSize: 6,
+    responsibilities: 'アプリ設計、プロトタイプ実装、バックエンド実装、デプロイ',
+    technologies: ['Flask', 'Tailwind CSS', 'SQLite', 'PythonAnywhere'],
     duration: '2週間',
   },
 ];
@@ -98,8 +106,13 @@ export function ProductsSection() {
               onClick={() => setSelectedProduct(product)}
               className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all cursor-pointer border-2 border-transparent hover:border-[#FFB6C1] group"
             >
-              <div className="text-6xl mb-4 text-center group-hover:scale-110 transition-transform">
-                {product.thumbnail}
+              <div className="mb-4 overflow-hidden rounded-xl">
+                <img
+                  src={product.thumbnail}
+                  alt={`${product.name}のサムネイル`}
+                  className="h-40 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  loading="lazy"
+                />
               </div>
               <h3 className="text-xl font-bold mb-2 text-[#333333]">{product.name}</h3>
               <p className="text-[#666666] mb-4 line-clamp-2">{product.description}</p>
@@ -120,7 +133,13 @@ export function ProductsSection() {
             <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl max-w-3xl w-[90vw] max-h-[85vh] z-50 shadow-2xl overflow-hidden flex flex-col">
               <div className="flex justify-between items-start p-8 pb-4 flex-shrink-0">
                 <div className="flex items-center gap-4">
-                  <span className="text-6xl">{selectedProduct?.thumbnail}</span>
+                  {selectedProduct && (
+                    <img
+                      src={selectedProduct.thumbnail}
+                      alt={`${selectedProduct.name}のサムネイル`}
+                      className="h-20 w-20 rounded-xl object-cover"
+                    />
+                  )}
                   <Dialog.Title className="text-3xl font-bold text-[#333333]">
                     {selectedProduct?.name}
                   </Dialog.Title>
@@ -143,20 +162,20 @@ export function ProductsSection() {
                       デプロイ先
                     </a>
                   )}
-                  {selectedProduct?.githubUrls.map((url, i) => (
+                  {selectedProduct?.githubUrls?.map((githubUrl, i) => (
                     <a
                       key={i}
-                      href={url !== '非公開' ? url : undefined}
-                      target={url !== '非公開' ? '_blank' : undefined}
+                      href={githubUrl !== '非公開' ? githubUrl.url : undefined}
+                      target={githubUrl !== '非公開' ? '_blank' : undefined}
                       rel="noopener noreferrer"
                       className={`inline-flex items-center gap-2 px-4 py-2 ${
-                        url === '非公開'
+                        githubUrl === '非公開'
                           ? 'bg-gray-300 text-[#666666] cursor-not-allowed'
                           : 'bg-[#333333] text-white hover:bg-[#555555]'
                       } rounded-full transition-colors`}
                     >
                       <Github size={18} />
-                      {url === '非公開' ? '非公開' : `GitHub ${i + 1}`}
+                      {githubUrl === '非公開' ? '非公開' : githubUrl.label}
                     </a>
                   ))}
                 </div>
@@ -187,10 +206,12 @@ export function ProductsSection() {
                   </div>
                 )}
 
-                <div>
-                  <h4 className="font-bold text-lg mb-2 text-[#FFB6C1]">担当箇所</h4>
-                  <p className="text-[#333333] leading-relaxed">{selectedProduct?.responsibilities}</p>
-                </div>
+                {selectedProduct?.type === 'チーム開発' && selectedProduct.responsibilities && (
+                  <div>
+                    <h4 className="font-bold text-lg mb-2 text-[#FFB6C1]">担当箇所</h4>
+                    <p className="text-[#333333] leading-relaxed">{selectedProduct.responsibilities}</p>
+                  </div>
+                )}
 
                 <div>
                   <h4 className="font-bold text-lg mb-2 text-[#FFB6C1]">使用技術</h4>
