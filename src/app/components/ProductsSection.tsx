@@ -84,7 +84,7 @@ const products: Product[] = [
   {
     id: 4,
     name: 'LiveFx',
-    description: '入学式の在校生プレゼンテーションで使用した、ライブパフォーマンス向けのインタラクティブシステム。',
+    description: '入学式PJで使用した、ライブパフォーマンス向けのインタラクティブシステム。',
     date: '2025年12月末～2026年4月',
     type: 'チーム開発',
     thumbnail: liveFxThumb,
