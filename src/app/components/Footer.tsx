@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Mail, Github, Heart } from 'lucide-react';
+import { Mail, Github} from 'lucide-react';
 
 export function Footer() {
   return (
@@ -57,7 +57,6 @@ export function Footer() {
         >
           <p className="text-lg font-medium text-[#333333] mb-2 flex items-center justify-center gap-2">
             MyPortfolio - Airi's Products -
-            <Heart size={16} className="text-[#FFB6C1]" fill="#FFB6C1" />
           </p>
           <p className="text-sm text-[#666666]">
             © 2026 Okamoto Airi. All rights reserved.
