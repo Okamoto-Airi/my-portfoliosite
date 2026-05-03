@@ -28,7 +28,7 @@ export function Footer() {
             <motion.a
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              href="mailto:your-email@example.com"
+              href="mailto:okamoto.airi.0123@gmail.com"
               className="flex items-center gap-2 px-6 py-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all border-2 border-[#FFB6C1] text-[#333333] hover:bg-[#FFD6DC]"
             >
               <Mail size={20} />
@@ -37,7 +37,7 @@ export function Footer() {
             <motion.a
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              href="https://github.com/yourusername"
+              href="https://github.com/Okamoto-Airi"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-6 py-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all border-2 border-[#333333] text-[#333333] hover:bg-gray-100"
