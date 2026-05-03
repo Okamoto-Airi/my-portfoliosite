@@ -14,12 +14,12 @@ const skillCategories: SkillCategory[] = [
   {
     title: '言語',
     skills: [
-      { name: 'Python', level: 3 },
       { name: 'HTML', level: 4 },
       { name: 'CSS', level: 4 },
       { name: 'JavaScript', level: 3 },
+      { name: 'Python', level: 3 },
       { name: 'SQL', level: 3 },
-      { name: 'TypeScript', level: 3 },
+      { name: 'TypeScript', level: 2 },
     ],
   },
   {
@@ -37,10 +37,8 @@ const skillCategories: SkillCategory[] = [
       { name: 'Docker', level: 2 },
       { name: 'AWS', level: 2 },
       { name: 'Linux', level: 3 },
-      { name: 'Raspberry Pi', level: 3 },
       { name: 'Git', level: 3 },
-      { name: 'MySQL', level: 3 },
-      { name: 'SO-101', level: 2 },
+      { name: 'Raspberry Pi', level: 2 },
     ],
   },
   {
@@ -116,12 +114,19 @@ export function SkillsSection() {
                 {category.title}
               </h3>
               <div className="space-y-4">
-                {category.skills.map((skill) => (
-                  <div key={skill.name} className="flex justify-between items-center">
-                    <span className="text-[#333333] font-medium">{skill.name}</span>
-                    <SkillLevel level={skill.level} />
-                  </div>
-                ))}
+                {category.title === '資格'
+                  ? category.skills.map((skill) => (
+                      <div key={skill.name} className="flex items-center gap-3">
+                        <span className="text-[#FFB6C1]">🌸</span>
+                        <span className="text-[#333333] font-medium">{skill.name}</span>
+                      </div>
+                    ))
+                  : category.skills.map((skill) => (
+                      <div key={skill.name} className="flex justify-between items-center">
+                        <span className="text-[#333333] font-medium">{skill.name}</span>
+                        <SkillLevel level={skill.level} />
+                      </div>
+                    ))}
               </div>
             </motion.div>
           ))}
