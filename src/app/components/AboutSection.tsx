@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import { User, GraduationCap, Heart } from 'lucide-react';
-import iconImage from '../../imports/icon.jpg';
+import iconImage from '../../images/icon.jpg';
 
 export function AboutSection() {
   return (
