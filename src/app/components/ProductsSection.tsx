@@ -5,6 +5,8 @@ import { X, ExternalLink, Github, Users, Calendar, Code } from 'lucide-react';
 import shootingGameThumb from '../../images/products/shooting-game.png';
 import mySiteThumb from '../../images/products/my-site.png';
 import traceMasterThumb from '../../images/products/trace-master.png';
+import liveFxThumb from '../../images/products/LiveFx.png';
+import shiftAppThumb from '../../images/products/shift-app.png';
 
 interface Product {
   id: number;
@@ -14,6 +16,7 @@ interface Product {
   type: 'チーム開発' | '個人開発';
   thumbnail: string;
   deployUrl?: string;
+  deployLabel?: string;
   githubUrls?: ({ label: string; url: string } | '非公開')[];
   background: string;
   features: string;
@@ -32,6 +35,7 @@ const products: Product[] = [
     type: 'チーム開発',
     thumbnail: shootingGameThumb,
     deployUrl: 'https://okamoto-airi.github.io/pygame-site/',
+    deployLabel: '公開サイト',
     githubUrls: [
       { label: 'Webサイト', url: 'https://github.com/Okamoto-Airi/pygame-site' },
       { label: 'レベル1', url: 'https://github.com/Okamoto-Airi/web-pygame_level1_PC' },
@@ -52,7 +56,9 @@ const products: Product[] = [
     date: '2026年4月',
     type: '個人開発',
     thumbnail: mySiteThumb,
-    githubUrls: [{ label: 'GitHub', url: 'https://github.com/example/project2' }],
+    deployUrl: 'https://okamoto-airi.github.io/my-portfoliosite/',
+    deployLabel: '公開サイト',
+    githubUrls: [{ label: 'GitHub', url: 'https://github.com/Okamoto-Airi/my-portfoliosite' }],
     background: 'React・TypeScript・Tailwind CSSの学習を兼ねて、自身のポートフォリオサイトを作成しました。',
     features: 'Product紹介、レスポンシブデザイン',
     technologies: ['React', 'TypeScript', 'Tailwind CSS'],
@@ -66,6 +72,7 @@ const products: Product[] = [
     type: 'チーム開発',
     thumbnail: traceMasterThumb,
     deployUrl: 'https://pear0123.pythonanywhere.com/',
+    deployLabel: 'Webアプリ',
     githubUrls: [{ label: 'GitHub', url: 'https://github.com/Okamoto-Airi/fe_trace_app' }],
     background: '基本情報技術者試験のアルゴリズム分野の学習を支援するため、チームでWebアプリケーションを開発しました。',
     features: 'ログイン機能、レベル別トレース演習、学習履歴、称号機能',
@@ -73,6 +80,38 @@ const products: Product[] = [
     responsibilities: 'アプリ設計、プロトタイプ実装、バックエンド実装、デプロイ',
     technologies: ['Flask', 'Tailwind CSS', 'SQLite', 'PythonAnywhere'],
     duration: '2週間',
+  },
+  {
+    id: 4,
+    name: 'LiveFx',
+    description: '入学式の在校生プレゼンテーションで使用した、ライブパフォーマンス向けのインタラクティブシステム。',
+    date: '2025年12月末～2026年4月',
+    type: 'チーム開発',
+    thumbnail: liveFxThumb,
+    deployUrl: 'https://siwlivefx.github.io/LiveFx-site/',
+    deployLabel: '紹介ページ',
+    githubUrls: ['非公開'],
+    background: '入学式の在校生プレゼンテーションで使用するため、ライブで使われる無線制御ペンライトをスマートフォンで同じように光らせることができるシステムです。QRコードを読み込ませることで、様々な演出をコントロールすることができます。2026年度の新機能として、観客の操作に応じてリアルタイムでスクリーン画面が変化する機能を追加しました。',
+    features: '表示画面切り替え機能、同期機能、複数の演出パターン、インタラクティブ演出',
+    teamSize: 12,
+    responsibilities: '2代目PM、認証機能の実装、インタラクティブ演出のバックエンド実装',
+    technologies: ['TypeScript', 'React', 'Express', 'Tailwind CSS', 'Docker', 'Kubernetes', 'AWS', 'Grafana', 'prometheus', 'WebSocket'],
+    duration: '3ヶ月',
+  },
+  {
+    id: 5,
+    name: '保育園シフト管理システム',
+    description: '保育園のシフト作成を効率化するためのWebアプリケーション。',
+    date: '2025年8月～2026年5月',
+    type: 'チーム開発',
+    thumbnail: shiftAppThumb,
+    githubUrls: ['非公開'],
+    background: '産学連携プロジェクトとして、保育園のシフト作成を効率化するためのWebアプリケーションを開発しました。ユーザーの希望シフトを収集し、スプレッドシートに自動で反映させることで、シフト作成の手間を大幅に削減します。要件定義から実装、運用保守までを担当し、現在も保育園で実際に使用されています。',
+    features: '認証機能、希望シフト入力機能、スプレッドシート連携',
+    teamSize: 9,
+    responsibilities: 'バックエンド実装',
+    technologies: ['GAS', 'スプレッドシート'],
+    duration: '3ヶ月',
   },
 ];
 
@@ -159,7 +198,7 @@ export function ProductsSection() {
                       className="inline-flex items-center gap-2 px-4 py-2 bg-[#7FFFD4] text-[#333333] rounded-full hover:bg-[#6FEFCE] transition-colors"
                     >
                       <ExternalLink size={18} />
-                      デプロイ先
+                      {selectedProduct.deployLabel ?? 'デプロイ先'}
                     </a>
                   )}
                   {selectedProduct?.githubUrls?.map((githubUrl, i) => (
