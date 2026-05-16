@@ -111,7 +111,7 @@ const products: Product[] = [
     teamSize: 9,
     responsibilities: 'バックエンド実装',
     technologies: ['GAS', 'スプレッドシート'],
-    duration: '3ヶ月',
+    duration: '8ヶ月',
   },
 ];
 
