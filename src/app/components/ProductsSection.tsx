@@ -90,7 +90,7 @@ const products: Product[] = [
     thumbnail: liveFxThumb,
     deployUrl: 'https://siwlivefx.github.io/LiveFx-site/',
     deployLabel: '紹介ページ',
-    githubUrls: ['非公開'],
+    githubUrls: [{ label: 'GitHub', url: 'https://github.com/SIWLiveFX/livefx-public' }],
     background: '入学式の在校生プレゼンテーションで使用するため、ライブで使われる無線制御ペンライトをスマートフォンで同じように光らせることができるシステムです。QRコードを読み込ませることで、様々な演出をコントロールすることができます。2026年度の新機能として、観客の操作に応じてリアルタイムでスクリーン画面が変化する機能を追加しました。',
     features: '表示画面切り替え機能、同期機能、複数の演出パターン、インタラクティブ演出',
     teamSize: 12,
