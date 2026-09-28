@@ -1,0 +1,116 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { withBase } from '../lib/url';
+
+interface Props {
+  product: CollectionEntry<'products'>;
+  /** 大きく見せるカード（先頭の2件） */
+  featured?: boolean;
+}
+
+const { product, featured = false } = Astro.props;
+const { data } = product;
+
+const href = withBase(`/products/${product.id}/`);
+const visibleTech = data.technologies.slice(0, featured ? 6 : 4);
+const hiddenCount = data.technologies.length - visibleTech.length;
+const isTeam = data.kind === 'チーム開発';
+---
+
+<a href={href} class="card group" data-glow>
+  <div class="card__media">
+    <Image
+      src={data.thumbnail}
+      alt={data.thumbnailAlt}
+      widths={[480, 720, 960]}
+      sizes={featured ? '(min-width: 768px) 46vw, 92vw' : '(min-width: 768px) 30vw, 92vw'}
+      class="card__image"
+      transition:name={`thumb-${product.id}`}
+    />
+  </div>
+
+  <div class="card__body">
+    <h3 class="font-display text-xl font-black text-ink sm:text-2xl">{data.title}</h3>
+    <p class="mt-2 line-clamp-2 text-ink-soft">{data.description}</p>
+
+    <div class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
+      <span class:list={['badge', isTeam ? 'bg-sakura-soft text-rose' : 'bg-mint-soft text-mint-deep']}>
+        {data.kind}{data.teamSize ? ` ${data.teamSize}名` : ''}
+      </span>
+      <span class="text-ink-soft">{data.period}</span>
+    </div>
+
+    <ul class="mt-4 flex flex-wrap gap-2" aria-label="使用技術">
+      {visibleTech.map((tech) => <li class="chip">{tech}</li>)}
+      {hiddenCount > 0 && <li class="chip chip-more">+{hiddenCount}</li>}
+    </ul>
+  </div>
+</a>
+
+<style>
+  .card {
+    position: relative;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 1.75rem;
+    background: white;
+    box-shadow: 0 14px 34px -18px rgb(185 58 95 / 0.35);
+    transition: box-shadow 0.3s;
+  }
+  .card:hover {
+    box-shadow: 0 26px 48px -20px rgb(185 58 95 / 0.45);
+  }
+  /* カーソルに追従する光 */
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 30%), rgb(255 255 255 / 0.5), transparent 45%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .card:hover::after {
+    opacity: 1;
+  }
+
+  .card__media {
+    overflow: hidden;
+    background: var(--color-sakura-tint);
+  }
+  .card__image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top;
+    transition: transform 0.6s var(--ease-soft);
+  }
+  .card:hover .card__image {
+    transform: scale(1.04);
+  }
+  .card__body {
+    padding: 1.5rem 1.6rem 1.75rem;
+  }
+
+  .badge {
+    padding: 0.15rem 0.75rem;
+    border-radius: 999px;
+    font-weight: 700;
+  }
+  .chip {
+    padding: 0.1rem 0.7rem;
+    border-radius: 999px;
+    background: var(--color-butter);
+    font-size: 0.8rem;
+    color: var(--color-ink);
+  }
+  .chip-more {
+    background: transparent;
+    color: var(--color-ink-soft);
+  }
+</style>

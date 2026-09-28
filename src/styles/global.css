@@ -1,0 +1,169 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------
+   デザイントークン（パステルピンク × ミント）
+   - sakura / mint は装飾用の色
+   - rose / mint-deep / ink は文字に使う色（背景とのコントラストを確保）
+------------------------------------------------------------ */
+@theme {
+  --color-mist: #f5fffa;
+  --color-sakura: #ffb6c1;
+  --color-sakura-soft: #ffd6dc;
+  --color-sakura-tint: #fff2f4;
+  --color-rose: #b93a5f;
+  --color-mint: #7fffd4;
+  --color-mint-soft: #d9fbec;
+  --color-mint-deep: #167a5e;
+  --color-butter: #fafad2;
+  --color-ink: #3b2e35;
+  --color-ink-soft: #6b5a63;
+
+  --font-display: 'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', 'Noto Sans JP', sans-serif;
+  --font-sans: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', system-ui, sans-serif;
+
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-padding-top: 5rem;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  body {
+    background: var(--color-mist);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+    text-size-adjust: 100%;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-rose);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  ::selection {
+    background: var(--color-sakura-soft);
+  }
+}
+
+/* キーボード利用者向け：本文へ飛ぶリンク */
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: 0.75rem;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  background: var(--color-ink);
+  color: white;
+  transform: translateY(-200%);
+}
+.skip-link:focus {
+  transform: none;
+}
+
+/* ------------------------------------------------------------
+   スクロール量に連動する進捗バー（対応ブラウザのみ・CSSだけ）
+------------------------------------------------------------ */
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 60;
+  height: 3px;
+  pointer-events: none;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--color-sakura), var(--color-mint));
+}
+@supports (animation-timeline: scroll()) {
+  .scroll-progress {
+    animation: scroll-progress linear both;
+    animation-timeline: scroll(root block);
+  }
+  @keyframes scroll-progress {
+    to {
+      transform: scaleX(1);
+    }
+  }
+}
+
+/* ------------------------------------------------------------
+   ページ遷移（View Transitions）
+   - ページ全体は短くフェード、共有要素（サムネイル）はゆっくり移動
+------------------------------------------------------------ */
+::view-transition-group(*) {
+  animation-duration: 520ms;
+  animation-timing-function: var(--ease-soft);
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 260ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   詳細ページの本文（Markdown）
+------------------------------------------------------------ */
+.prose-ja {
+  color: var(--color-ink);
+  line-height: 2;
+}
+.prose-ja > :first-child {
+  margin-top: 0;
+}
+.prose-ja h2 {
+  width: fit-content;
+  margin: 3rem 0 1.25rem;
+  padding: 0 0.3em;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 900;
+  line-height: 1.6;
+  /* マーカーで線を引いたような見出し */
+  background: linear-gradient(transparent 60%, var(--color-sakura-soft) 60%);
+}
+.prose-ja h2:first-child {
+  margin-top: 0;
+}
+.prose-ja p {
+  margin: 0 0 1.25rem;
+  max-width: 42em;
+}
+.prose-ja ul {
+  margin: 0 0 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+.prose-ja li {
+  position: relative;
+  padding-left: 1.6rem;
+  margin-bottom: 0.4rem;
+}
+.prose-ja li::before {
+  content: '';
+  position: absolute;
+  left: 0.25rem;
+  top: 0.95em;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 60% 40% 60% 40%;
+  background: var(--color-sakura);
+  transform: rotate(-20deg);
+}
+.prose-ja a {
+  color: var(--color-rose);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
