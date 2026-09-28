@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import { SmileMark } from './SmileMark';
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -39,9 +40,11 @@ export function Header() {
         <div className="flex justify-between items-center py-4">
           <button
             onClick={() => scrollToSection('hero')}
-            className="text-2xl font-bold text-[#FFB6C1] hover:opacity-80 transition-opacity"
+            data-cursor-hover
+            className="flex items-center gap-2 text-2xl font-bold text-[#FFB6C1] hover:opacity-80 transition-opacity"
           >
-            Airi's Portfolio
+            <SmileMark size={28} />
+            <span>Airi's Portfolio</span>
           </button>
 
           {/* Desktop Navigation */}
@@ -50,6 +53,7 @@ export function Header() {
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
+                data-cursor-hover
                 className="text-[#333333] hover:text-[#FFB6C1] transition-colors font-medium"
               >
                 {item.label}

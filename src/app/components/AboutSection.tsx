@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { User, GraduationCap, Heart } from 'lucide-react';
 import iconImage from '../../images/icon.jpg';
+import { staggerContainer, fadeUpItem } from '../lib/motion';
 
 export function AboutSection() {
   return (
@@ -45,17 +46,23 @@ export function AboutSection() {
                 </h3>
               </div>
 
-              <div className="space-y-6 text-[#333333]">
-                <div className="flex items-start gap-3">
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={staggerContainer(0.2)}
+                className="space-y-6 text-[#333333]"
+              >
+                <motion.div variants={fadeUpItem} className="flex items-start gap-3">
                   <GraduationCap className="text-[#7FFFD4] mt-1 flex-shrink-0" size={24} />
                   <p className="leading-relaxed">
                     4年制のIT専門学校に通っている学生です（3年 / 28卒）
                     <br />
                     Web技術を中心に幅広いIT分野を学んでいます。
                   </p>
-                </div>
+                </motion.div>
 
-                <div className="flex items-start gap-3">
+                <motion.div variants={fadeUpItem} className="flex items-start gap-3">
                   <Heart className="text-[#FFB6C1] mt-1 flex-shrink-0" size={24} />
                   <div className="leading-relaxed">
                     <p className="mb-4">
@@ -68,8 +75,8 @@ export function AboutSection() {
                       将来は、ユーザーの気持ちに寄り添い、小さな課題にも丁寧に向き合えるエンジニアを目指しています。
                     </p>
                   </div>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             </div>
           </div>
         </motion.div>

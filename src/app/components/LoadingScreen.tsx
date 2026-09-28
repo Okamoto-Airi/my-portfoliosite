@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
+import { SmileMark } from './SmileMark';
 
 interface LoadingScreenProps {
   onLoadingComplete: () => void;
@@ -36,6 +37,15 @@ export function LoadingScreen({ onLoadingComplete }: LoadingScreenProps) {
         transition={{ duration: 0.5 }}
         className="text-center space-y-8"
       >
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
+          animate={{ opacity: 1, scale: 1, rotate: 0 }}
+          transition={{ duration: 0.6 }}
+          className="flex justify-center text-[#FFB6C1]"
+        >
+          <SmileMark size={48} animate />
+        </motion.div>
+
         <h1 className="text-4xl md:text-6xl font-bold text-[#FFB6C1]">
           Airi's Portfolio
         </h1>

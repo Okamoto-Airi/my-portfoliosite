@@ -7,13 +7,24 @@ import { ProductsSection } from './components/ProductsSection';
 import { ActivitiesSection } from './components/ActivitiesSection';
 import { SkillsSection } from './components/SkillsSection';
 import { Footer } from './components/Footer';
+import { CustomCursor } from './components/CustomCursor';
+
+const LOADING_SEEN_KEY = 'hasSeenLoadingScreen';
 
 export default function App() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(
+    () => sessionStorage.getItem(LOADING_SEEN_KEY) !== 'true'
+  );
+
+  const handleLoadingComplete = () => {
+    sessionStorage.setItem(LOADING_SEEN_KEY, 'true');
+    setIsLoading(false);
+  };
 
   return (
     <>
-      {isLoading && <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />}
+      <CustomCursor />
+      {isLoading && <LoadingScreen onLoadingComplete={handleLoadingComplete} />}
 
       {!isLoading && (
         <div className="min-h-screen">

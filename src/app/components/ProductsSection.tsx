@@ -143,7 +143,8 @@ export function ProductsSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               onClick={() => setSelectedProduct(product)}
-              className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all cursor-pointer border-2 border-transparent hover:border-[#FFB6C1] group overflow-hidden"
+              data-cursor-hover
+              className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-shadow cursor-pointer border-2 border-transparent hover:border-[#FFB6C1] group overflow-hidden"
             >
               <div className="overflow-hidden">
                 <img
@@ -176,7 +177,7 @@ export function ProductsSection() {
                 <Dialog.Title className="text-3xl font-bold text-[#333333]">
                   {selectedProduct?.name}
                 </Dialog.Title>
-                <Dialog.Close className="text-[#999999] hover:text-[#333333] transition-colors">
+                <Dialog.Close data-cursor-hover className="text-[#999999] hover:text-[#333333] transition-colors">
                   <X size={32} />
                 </Dialog.Close>
               </div>
@@ -188,6 +189,7 @@ export function ProductsSection() {
                       href={selectedProduct.deployUrl}
                       target="_blank"
                       rel="noopener noreferrer"
+                      data-cursor-hover
                       className="inline-flex items-center gap-2 px-4 py-2 bg-[#7FFFD4] text-[#333333] rounded-full hover:bg-[#6FEFCE] transition-colors"
                     >
                       <ExternalLink size={18} />
@@ -200,6 +202,7 @@ export function ProductsSection() {
                       href={githubUrl !== '非公開' ? githubUrl.url : undefined}
                       target={githubUrl !== '非公開' ? '_blank' : undefined}
                       rel="noopener noreferrer"
+                      data-cursor-hover
                       className={`inline-flex items-center gap-2 px-4 py-2 ${
                         githubUrl === '非公開'
                           ? 'bg-gray-300 text-[#666666] cursor-not-allowed'
