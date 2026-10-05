@@ -55,7 +55,8 @@ const info = [
           widths={[720, 1080, 1440]}
           sizes="(min-width: 1152px) 1104px, 92vw"
           loading="eager"
-          class="block aspect-[16/10] w-full object-cover object-top sm:aspect-[16/8]"
+          class="block w-full rounded-[2rem] object-cover"
+          style={`aspect-ratio: ${data.thumbnail.width} / ${data.thumbnail.height}`}
           transition:name={`thumb-${entry.id}`}
         />
       </div>

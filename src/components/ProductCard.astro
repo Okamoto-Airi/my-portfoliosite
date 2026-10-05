@@ -88,6 +88,8 @@ const isTeam = data.kind === 'チーム開発';
     aspect-ratio: 16 / 10;
     object-fit: cover;
     object-position: top;
+    /* transition:name を持つ要素なので、ページ遷移アニメーション中も角丸が保たれるよう直接指定する */
+    border-radius: 1.75rem 1.75rem 0 0;
     transition: transform 0.6s var(--ease-soft);
   }
   .card:hover .card__image {

@@ -4,7 +4,7 @@ description: 入学式PJで使用した、ライブパフォーマンス向け�
 period: 2025年12月末～2026年4月
 duration: 3ヶ月
 kind: チーム開発
-order: 2
+order: 1
 thumbnail: ../../assets/products/LiveFx.png
 thumbnailAlt: 入学式会場で、観客のペンライトが青や緑に光っている様子
 deployUrl: https://siwlivefx.github.io/LiveFx-site/

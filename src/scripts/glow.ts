@@ -23,9 +23,8 @@ export function initGlow(selector = '[data-glow]') {
     });
 
     el.addEventListener('pointerleave', () => {
+      // 位置はそのまま残し、最後にいた場所からフェードアウトさせる（中央へ戻さない）
       cancelAnimationFrame(raf);
-      el.style.removeProperty('--mx');
-      el.style.removeProperty('--my');
     });
   });
 }

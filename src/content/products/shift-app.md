@@ -4,7 +4,7 @@ description: 保育園のシフト作成を効率化するためのWebアプリ�
 period: 2025年8月～2026年5月
 duration: 8ヶ月
 kind: チーム開発
-order: 1
+order: 2
 thumbnail: ../../assets/products/shift-app.png
 thumbnailAlt: Google Apps Scriptのロゴとスプレッドシートのアイコン
 repoPrivate: true
