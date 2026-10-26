@@ -1,0 +1,82 @@
+---
+import Icon from './Icon.astro';
+import SectionHeading from './SectionHeading.astro';
+import { skillCategories, levelDescriptions } from '../data/skills';
+import { getProducts } from '../lib/products';
+import { withBase } from '../lib/url';
+
+const products = await getProducts();
+
+/** スキルの `uses` と作品の technologies が一致する作品を「使った作品」として返す */
+function worksFor(uses: string[] = []) {
+  const keys = uses.map((u) => u.toLowerCase());
+  return products.filter((p) => p.data.technologies.some((t) => keys.includes(t.toLowerCase())));
+}
+---
+
+<section id="skills" class="px-5 py-24 sm:px-8">
+  <div class="mx-auto max-w-6xl">
+    <SectionHeading title="Skills" lede="花びらの数は自己評価です。使った作品があるものは、作品ページへ移動できます。" />
+
+    <dl class="mb-12 flex flex-wrap gap-x-8 gap-y-3 rounded-3xl bg-white/70 px-6 py-5 text-sm">
+      {
+        levelDescriptions.map((d) => (
+          <div class="flex items-center gap-3">
+            <dt class="flex" aria-label={`レベル${d.level}`}>
+              {[1, 2, 3, 4, 5].map((n) => (
+                <Icon name="petal" size={14} class={n <= d.level ? 'text-sakura' : 'text-sakura/25'} />
+              ))}
+            </dt>
+            <dd class="text-ink-soft">{d.text}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <div class="grid gap-x-16 gap-y-14 md:grid-cols-2">
+      {
+        skillCategories.map((category) => (
+          <div>
+            <h3 class="mb-5 w-fit bg-[linear-gradient(transparent_60%,var(--color-mint-soft)_60%)] px-1 font-display text-2xl font-black text-ink">
+              {category.title}
+            </h3>
+            <ul class="divide-y divide-sakura-soft/80">
+              {category.skills.map((skill) => {
+                const works = worksFor(skill.uses);
+                return (
+                  <li class="py-3">
+                    <div class="flex items-center justify-between gap-4">
+                      <span class="font-medium text-ink">{skill.name}</span>
+                      {skill.level ? (
+                        <span class="flex shrink-0" role="img" aria-label={`レベル${skill.level} / 5`}>
+                          {[1, 2, 3, 4, 5].map((n) => (
+                            <Icon name="petal" size={18} class={n <= skill.level! ? 'text-sakura' : 'text-sakura/25'} />
+                          ))}
+                        </span>
+                      ) : (
+                        <Icon name="petal" size={18} class="text-mint" />
+                      )}
+                    </div>
+                    {works.length > 0 && (
+                      <p class="mt-2 flex flex-wrap items-center gap-2 text-xs text-ink-soft">
+                        <span>使った作品</span>
+                        {works.map((w) => (
+                          <a
+                            href={withBase(`/products/${w.id}/`)}
+                            class="rounded-full bg-mint-soft px-2.5 py-0.5 font-medium text-mint-deep transition-colors hover:bg-mint"
+                          >
+                            {w.data.title}
+                          </a>
+                        ))}
+                      </p>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

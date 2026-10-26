@@ -1,0 +1,188 @@
+---
+import { site } from '../data/site';
+import { withBase } from '../lib/url';
+
+// タイトルを1文字ずつ <span> に分けて、順番に浮かび上がらせる
+const lines = ["Airi's", 'Portfolio'];
+let index = 0;
+const rows = lines.map((line) => [...line].map((char) => ({ char, i: index++ })));
+---
+
+<section id="hero" class="hero relative isolate flex min-h-svh items-center overflow-hidden">
+  <div class="blobs" aria-hidden="true">
+    <span class="blob blob-pink"></span>
+    <span class="blob blob-mint"></span>
+    <span class="blob blob-butter"></span>
+  </div>
+  <canvas data-petals class="pointer-events-none absolute inset-0 -z-10 h-full w-full" aria-hidden="true"></canvas>
+
+  <div class="mx-auto w-full max-w-6xl px-5 pb-12 pt-20 sm:px-8">
+    <h1 class="hero-title font-display font-black leading-[1.05] text-ink" aria-label={site.name}>
+      {
+        rows.map((row) => (
+          <span class="row" aria-hidden="true">
+            {row.map(({ char, i }) => (
+              <span class="ch" style={`--i:${i}`}>
+                {char}
+              </span>
+            ))}
+          </span>
+        ))
+      }
+    </h1>
+
+    <p class="hero-tagline mt-8 max-w-xl text-lg text-ink-soft sm:text-xl">{site.tagline}</p>
+
+    <div class="hero-actions mt-8 flex flex-wrap gap-4">
+      <a href={withBase('/#about')} class="hero-button bg-white/80 text-ink hover:bg-white">自己紹介</a>
+      <a href={withBase('/#products')} class="hero-button bg-sakura text-ink hover:bg-sakura-soft">作品を見る</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    background: var(--color-mist);
+  }
+
+  /* --- 背景：ゆっくり漂う3色のぼかし ---------------------------- */
+  .blobs {
+    position: absolute;
+    inset: 0;
+    z-index: -20;
+    overflow: hidden;
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    will-change: transform;
+  }
+  .blob-pink {
+    width: 70vmax;
+    height: 70vmax;
+    left: -25vmax;
+    top: -30vmax;
+    background: radial-gradient(closest-side, rgb(255 182 193 / 0.85), transparent);
+    animation: drift-a 24s ease-in-out infinite alternate;
+  }
+  .blob-mint {
+    width: 65vmax;
+    height: 65vmax;
+    right: -25vmax;
+    bottom: -28vmax;
+    background: radial-gradient(closest-side, rgb(127 255 212 / 0.6), transparent);
+    animation: drift-b 28s ease-in-out infinite alternate;
+  }
+  .blob-butter {
+    width: 45vmax;
+    height: 45vmax;
+    right: 8vmax;
+    top: 6vmax;
+    background: radial-gradient(closest-side, rgb(250 250 210 / 0.95), transparent);
+    animation: drift-c 21s ease-in-out infinite alternate;
+  }
+  @keyframes drift-a {
+    to {
+      transform: translate3d(9vmax, 7vmax, 0) scale(1.12);
+    }
+  }
+  @keyframes drift-b {
+    to {
+      transform: translate3d(-8vmax, -6vmax, 0) scale(1.1);
+    }
+  }
+  @keyframes drift-c {
+    to {
+      transform: translate3d(-6vmax, 8vmax, 0) scale(0.9);
+    }
+  }
+
+  /* --- タイトル：1文字ずつ下から跳ねて出てくる ------------------- */
+  .hero-title {
+    font-size: clamp(3.5rem, 10vw, 7.5rem);
+    letter-spacing: -0.01em;
+  }
+  .row {
+    display: block;
+    /* 下から上がってくる文字を行の枠で切り取る（跳ね上がる分の余白も確保） */
+    overflow: hidden;
+    padding: 0.14em 0.04em 0.08em;
+    margin: -0.14em -0.04em -0.08em;
+  }
+  .ch {
+    display: inline-block;
+    animation: rise 0.95s var(--ease-spring) both;
+    animation-delay: calc(var(--i) * 55ms + 150ms);
+  }
+  @keyframes rise {
+    from {
+      transform: translateY(110%) rotate(9deg);
+      opacity: 0;
+    }
+    to {
+      transform: none;
+      opacity: 1;
+    }
+  }
+
+  /* タイトルの後に、キャッチコピー→ボタンの順で静かに現れる */
+  .hero-tagline {
+    animation: fade-in 0.8s ease-out 1.05s both;
+  }
+  .hero-actions {
+    animation: fade-in 0.8s ease-out 1.3s both;
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .hero-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.85rem 1.8rem;
+    border-radius: 999px;
+    font-weight: 700;
+    backdrop-filter: blur(4px);
+    transition:
+      transform 0.3s var(--ease-spring),
+      background-color 0.2s;
+  }
+  .hero-button:hover {
+    transform: translateY(-3px);
+  }
+  .hero-button:active {
+    transform: translateY(0) scale(0.97);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .blob,
+    .ch,
+    .hero-tagline,
+    .hero-actions {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  import { startPetals } from '../scripts/petals';
+
+  let stop: (() => void) | undefined;
+
+  document.addEventListener('astro:page-load', () => {
+    const canvas = document.querySelector<HTMLCanvasElement>('[data-petals]');
+    if (canvas) stop = startPetals(canvas);
+  });
+  // 画面遷移でページが入れ替わる前に、動いているアニメーションを止める
+  document.addEventListener('astro:before-swap', () => {
+    stop?.();
+    stop = undefined;
+  });
+</script>

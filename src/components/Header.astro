@@ -1,0 +1,127 @@
+---
+import Icon from './Icon.astro';
+import { nav, site } from '../data/site';
+import { withBase } from '../lib/url';
+---
+
+<header
+  data-header
+  class="fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow] duration-300 data-[scrolled]:bg-white/80 data-[scrolled]:shadow-[0_1px_0_0_var(--color-sakura-soft)] data-[scrolled]:backdrop-blur-md data-[open]:bg-white"
+>
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-3 sm:px-8">
+    <a href={withBase('/')} class="flex items-center gap-2 font-display text-xl font-black text-ink">
+      <Icon name="smile" size={26} class="text-rose" />
+      {site.name}
+    </a>
+
+    <nav aria-label="メインナビゲーション" class="hidden md:block">
+      <ul class="flex items-center gap-8">
+        {
+          nav.map((item) => (
+            <li>
+              <a href={withBase(item.href)} class="nav-link font-medium text-ink">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <button
+      type="button"
+      data-menu-button
+      class="menu-button -mr-2 rounded-full p-2 text-ink md:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="メニューを開く"
+    >
+      <Icon name="menu" size={26} class="i-open" />
+      <Icon name="close" size={26} class="i-close" />
+    </button>
+  </div>
+
+  <nav id="mobile-menu" data-menu hidden aria-label="モバイルナビゲーション" class="md:hidden">
+    <ul class="mx-auto max-w-6xl px-5 pb-4 sm:px-8">
+      {
+        nav.map((item) => (
+          <li>
+            <a href={withBase(item.href)} class="block rounded-xl px-3 py-3 font-medium text-ink active:bg-sakura-soft">
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .nav-link {
+    position: relative;
+    padding-block: 0.25rem;
+  }
+  /* ホバーで下線が左から伸びる */
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 0.4rem;
+    z-index: -1;
+    border-radius: 999px;
+    background: var(--color-sakura-soft);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s var(--ease-soft);
+  }
+  .nav-link:hover::after,
+  .nav-link:focus-visible::after {
+    transform: scaleX(1);
+  }
+  /* アイコンは子コンポーネントの要素なので :global で指定する */
+  .menu-button :global(.i-close) {
+    display: none;
+  }
+  .menu-button[aria-expanded='true'] :global(.i-open) {
+    display: none;
+  }
+  .menu-button[aria-expanded='true'] :global(.i-close) {
+    display: block;
+  }
+</style>
+
+<script>
+  const updateScrolled = () => {
+    document.querySelector('[data-header]')?.toggleAttribute('data-scrolled', window.scrollY > 24);
+  };
+
+  function setupMenu() {
+    const header = document.querySelector<HTMLElement>('[data-header]');
+    const button = header?.querySelector<HTMLButtonElement>('[data-menu-button]');
+    const panel = header?.querySelector<HTMLElement>('[data-menu]');
+    if (!header || !button || !panel) return;
+
+    const setOpen = (open: boolean) => {
+      button.setAttribute('aria-expanded', String(open));
+      button.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+      panel.hidden = !open;
+      header.toggleAttribute('data-open', open);
+    };
+
+    button.addEventListener('click', () => setOpen(button.getAttribute('aria-expanded') !== 'true'));
+    panel.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('a')) setOpen(false);
+    });
+    header.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') setOpen(false);
+    });
+  }
+
+  // モジュールは最初の1回だけ実行される。画面遷移のたびに DOM が入れ替わるので、
+  // ページごとの初期化は astro:page-load で行う。
+  window.addEventListener('scroll', updateScrolled, { passive: true });
+  document.addEventListener('astro:page-load', () => {
+    updateScrolled();
+    setupMenu();
+  });
+</script>

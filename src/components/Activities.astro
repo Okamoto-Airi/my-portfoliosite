@@ -1,0 +1,82 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { activities } from '../data/activities';
+---
+
+<section id="activities" class="bg-mint-soft/50 px-5 py-24 sm:px-8">
+  <div class="mx-auto max-w-6xl">
+    <SectionHeading title="Activities" />
+
+    <ol class="timeline relative max-w-3xl">
+      {
+        activities.map((activity) => (
+          <li class="timeline__item relative grid grid-cols-[1fr] gap-x-6 pb-8 pl-9 last:pb-0 sm:grid-cols-[10.5rem_1fr]">
+            <span class="timeline__dot" aria-hidden="true" />
+            <time class="font-display font-bold text-rose">{activity.date}</time>
+            <p class="text-ink">{activity.title}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.4375rem;
+    top: 0.9rem;
+    bottom: 0.9rem;
+    width: 2px;
+    border-radius: 2px;
+    background: linear-gradient(var(--color-sakura), var(--color-mint));
+    transform-origin: top;
+  }
+  .timeline__dot {
+    position: absolute;
+    left: 0;
+    top: 0.55rem;
+    width: 0.9375rem;
+    height: 0.9375rem;
+    border-radius: 50%;
+    background: var(--color-sakura);
+    box-shadow: 0 0 0 4px var(--color-mist);
+  }
+
+  /* スクロールに合わせて、線が伸び、点が順に灯る（対応ブラウザのみ） */
+  @supports (animation-timeline: view()) {
+    .timeline::before {
+      animation: draw linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 60%;
+    }
+    .timeline__dot {
+      animation: pop linear both;
+      animation-timeline: view();
+      animation-range: entry 30% entry 90%;
+    }
+    @keyframes draw {
+      from {
+        transform: scaleY(0);
+      }
+      to {
+        transform: scaleY(1);
+      }
+    }
+    @keyframes pop {
+      from {
+        transform: scale(0);
+      }
+      to {
+        transform: scale(1);
+      }
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .timeline::before,
+    .timeline__dot {
+      animation: none;
+    }
+  }
+</style>

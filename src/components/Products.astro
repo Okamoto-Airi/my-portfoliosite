@@ -1,0 +1,30 @@
+---
+import ProductCard from './ProductCard.astro';
+import SectionHeading from './SectionHeading.astro';
+import { getProducts } from '../lib/products';
+
+const products = await getProducts();
+---
+
+<section id="products" class="bg-sakura-tint px-5 py-24 sm:px-8">
+  <div class="mx-auto max-w-6xl">
+    <SectionHeading title="Products" lede="カードを開くと、背景、担当箇所、使った技術を読めます。" />
+
+    <ul class="grid grid-cols-1 gap-6 md:grid-cols-6">
+      {
+        products.map((product, i) => (
+          <li class:list={['flex', i < 2 ? 'md:col-span-3' : 'md:col-span-2']}>
+            <div class="w-full">
+              <ProductCard product={product} featured={i < 2} />
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<script>
+  import { initGlow } from '../scripts/glow';
+  document.addEventListener('astro:page-load', () => initGlow());
+</script>
