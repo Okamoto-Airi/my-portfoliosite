@@ -7,7 +7,9 @@ kind: チーム開発
 order: 2
 thumbnail: ../../assets/products/shift-app.png
 thumbnailAlt: Google Apps Scriptのロゴとスプレッドシートのアイコン
-repoPrivate: true
+repos:
+  - label: GitHub
+    url: https://github.com/SIW-ShiftSystem/shift-app-public
 teamSize: 9
 role: バックエンド実装
 technologies: [GAS, スプレッドシート]
