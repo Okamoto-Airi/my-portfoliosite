@@ -14,7 +14,7 @@ repos:
     url: https://github.com/SIWLiveFX/livefx-public
 teamSize: 12
 role: 2代目PM、認証機能の実装、インタラクティブ演出のバックエンド実装
-technologies: [TypeScript, React, Express, Tailwind CSS, Docker, Kubernetes, AWS, Grafana, prometheus, WebSocket]
+technologies: [TypeScript, React, Express, Tailwind CSS, Docker, Kubernetes, AWS, Grafana, Prometheus, WebSocket]
 ---
 
 ## 背景・目的
@@ -27,10 +27,3 @@ technologies: [TypeScript, React, Express, Tailwind CSS, Docker, Kubernetes, AWS
 - 同期機能
 - 複数の演出パターン
 - インタラクティブ演出
-
-<!--
-【追記ガイド】ここに「## 課題と工夫」を書くと、詳細ページに表示されます。
- - 自分で見つけた課題は何か
- - どう考えて、どう解決したか
- - その結果どうなったか（数字や、現場からの反応があれば）
--->
