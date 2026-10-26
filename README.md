@@ -24,7 +24,7 @@ pnpm check      # 型チェック
 | --- | --- |
 | 作品を追加・修正する | `src/content/products/*.md`（1作品＝1ファイル） |
 | スキルを追加・修正する | `src/data/skills.ts` |
-| 活動（Activities）を追加する | `src/data/activities.ts` |
+| 活動（Activities）を追加・詳細を書く | `src/content/activities/*.md`（1活動＝1ファイル） |
 | 名前・メール・キャッチコピーを変える | `src/data/site.ts` |
 | 色やフォントを変える | `src/styles/global.css` の `@theme` |
 
@@ -61,6 +61,25 @@ technologies: [TypeScript, React]
 ```
 
 `technologies` に書いた名前は、Skills セクションの「使った作品」と自動で結び付きます（`src/data/skills.ts` の `uses`）。
+
+### 活動を追加する・詳細を書く
+
+`src/content/activities/` に Markdown ファイルを作ります（ファイル名は `2026-09-xxx.md` のように年月から始めると探しやすいです）。
+
+```md
+---
+title: 活動名
+date: 2026/09             # タイムラインに出す年月
+order: 14                 # 小さい順（古い順）に並ぶ。末尾に足すときは最大値+1
+summary: 詳細ページの冒頭に出す1〜2行の説明   # 省略可
+---
+
+## 何をしたか
+...
+```
+
+- **本文を書いた活動だけ**、`/activities/<ファイル名>/` の詳細ページができ、一覧の行がリンクになります。
+- 本文が空（`---` の下に何も書かない）なら、詳細ページは作られず、今まで通りタイトルだけ表示されます。資格など書くことが少ないものはこの形にします。
 
 ## 動きの場所
 

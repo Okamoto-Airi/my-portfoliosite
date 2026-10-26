@@ -1,6 +1,10 @@
 ---
 import SectionHeading from './SectionHeading.astro';
-import { activities } from '../data/activities';
+import Icon from './Icon.astro';
+import { getActivities, hasDetail } from '../lib/activities';
+import { withBase } from '../lib/url';
+
+const activities = await getActivities();
 ---
 
 <section id="activities" class="bg-mint-soft/50 px-5 py-24 sm:px-8">
@@ -12,8 +16,16 @@ import { activities } from '../data/activities';
         activities.map((activity) => (
           <li class="timeline__item relative grid grid-cols-[1fr] gap-x-6 pb-8 pl-9 last:pb-0 sm:grid-cols-[10.5rem_1fr]">
             <span class="timeline__dot" aria-hidden="true" />
-            <time class="font-display font-bold text-rose">{activity.date}</time>
-            <p class="text-ink">{activity.title}</p>
+            <time class="font-display font-bold text-rose">{activity.data.date}</time>
+            <p class="text-ink">
+              {activity.data.title}
+              {hasDetail(activity) && (
+                <a href={withBase(`/activities/${activity.id}/`)} class="timeline__more">
+                  詳細
+                  <Icon name="chevron-right" size={16} />
+                </a>
+              )}
+            </p>
           </li>
         ))
       }
@@ -42,6 +54,21 @@ import { activities } from '../data/activities';
     border-radius: 50%;
     background: var(--color-sakura);
     box-shadow: 0 0 0 4px var(--color-mist);
+  }
+
+  /* 詳細ページがある行にだけ出す「詳細」リンク */
+  .timeline__more {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 0.5rem;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-rose);
+    transition: transform 0.3s var(--ease-spring);
+  }
+  .timeline__more:hover {
+    transform: translateX(3px);
   }
 
   /* スクロールに合わせて、線が伸び、点が順に灯る（対応ブラウザのみ） */

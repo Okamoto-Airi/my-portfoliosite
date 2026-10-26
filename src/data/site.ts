@@ -3,7 +3,7 @@ export const site = {
   author: 'Okamoto Airi',
   url: 'https://okamoto-airi.github.io/my-portfoliosite/',
   description:
-    'Okamoto Airi（IT専門学校3年・28卒）のポートフォリオ。Web技術を中心とした制作物、スキル、活動をまとめています。',
+    'Okamoto Airiのポートフォリオ。これまでの制作物、スキル、活動をまとめています。',
   tagline: '技術で人の笑顔を創るエンジニアへ',
   email: 'okamoto.airi.0123@gmail.com',
   github: 'https://github.com/Okamoto-Airi',

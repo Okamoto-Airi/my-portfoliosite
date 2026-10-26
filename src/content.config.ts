@@ -30,4 +30,17 @@ const products = defineCollection({
     }),
 });
 
-export const collections = { products };
+const activities = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/activities' }),
+  schema: z.object({
+    title: z.string(),
+    /** タイムラインに出す年月。例: 2024/12 */
+    date: z.string(),
+    /** 小さい順に上から並ぶ（古い順）。同じ月の並びもこれで決める */
+    order: z.number(),
+    /** 詳細ページの冒頭と meta description に使う1〜2行の説明 */
+    summary: z.string().optional(),
+  }),
+});
+
+export const collections = { products, activities };

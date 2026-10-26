@@ -1,0 +1,91 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import { getActivities, hasDetail } from '../../lib/activities';
+import { withBase } from '../../lib/url';
+
+export async function getStaticPaths() {
+  // 詳細ページがある活動だけを対象に、前後ナビも作る
+  const activities = (await getActivities()).filter(hasDetail);
+  return activities.map((entry, i) => ({
+    params: { id: entry.id },
+    props: { entry, prev: activities[i - 1], next: activities[i + 1] },
+  }));
+}
+
+const { entry, prev, next } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={data.title} description={data.summary}>
+  <article class="px-5 pb-24 pt-28 sm:px-8">
+    <div class="mx-auto max-w-3xl">
+      <a
+        href={withBase('/#activities')}
+        class="mb-8 inline-flex items-center gap-1 rounded-full bg-white/80 py-1.5 pl-2 pr-4 text-sm font-medium text-ink transition-colors hover:bg-sakura-soft"
+      >
+        <Icon name="chevron-left" size={18} />
+        活動一覧に戻る
+      </a>
+
+      <header>
+        <time class="font-display text-lg font-bold text-rose">{data.date}</time>
+        <h1 class="mt-2 font-display text-3xl font-black leading-tight text-ink sm:text-5xl">{data.title}</h1>
+        {data.summary && <p class="mt-4 text-lg text-ink-soft">{data.summary}</p>}
+      </header>
+
+      <div class="prose-ja mt-12">
+        <Content />
+      </div>
+
+      <nav aria-label="ほかの活動" class="mt-24 grid gap-4 sm:grid-cols-2">
+        {
+          prev ? (
+            <a href={withBase(`/activities/${prev.id}/`)} class="pager justify-start">
+              <Icon name="chevron-left" size={20} class="shrink-0 text-rose" />
+              <span>
+                <span class="block text-xs text-ink-soft">前の活動</span>
+                <span class="font-display text-lg font-bold">{prev.data.title}</span>
+              </span>
+            </a>
+          ) : (
+            <span />
+          )
+        }
+        {
+          next && (
+            <a href={withBase(`/activities/${next.id}/`)} class="pager justify-end text-right">
+              <span>
+                <span class="block text-xs text-ink-soft">次の活動</span>
+                <span class="font-display text-lg font-bold">{next.data.title}</span>
+              </span>
+              <Icon name="chevron-right" size={20} class="shrink-0 text-rose" />
+            </a>
+          )
+        }
+      </nav>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .pager {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: 1.5rem;
+    background: white;
+    color: var(--color-ink);
+    box-shadow: 0 10px 28px -18px rgb(185 58 95 / 0.4);
+    transition:
+      transform 0.3s var(--ease-spring),
+      box-shadow 0.3s;
+  }
+  .pager:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 34px -18px rgb(185 58 95 / 0.5);
+  }
+</style>
