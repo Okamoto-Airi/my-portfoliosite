@@ -13,6 +13,8 @@ import { site } from '../data/site';
       <a
         href={`mailto:${site.email}`}
         class="contact-button bg-sakura text-ink hover:bg-sakura-soft"
+        data-track="contact_click"
+        data-track-method="email"
       >
         <Icon name="mail" />
         <span>Email</span>
@@ -22,6 +24,8 @@ import { site } from '../data/site';
         target="_blank"
         rel="noopener noreferrer"
         class="contact-button bg-ink text-white hover:bg-ink-soft"
+        data-track="contact_click"
+        data-track-method="github"
       >
         <Icon name="github" />
         <span>GitHub</span>
@@ -30,6 +34,13 @@ import { site } from '../data/site';
     </div>
 
     <p class="mt-20 text-sm text-ink-soft">© 2026 {site.author}. All rights reserved.</p>
+    {
+      import.meta.env.PUBLIC_GA_MEASUREMENT_ID && (
+        <p class="mt-2 text-xs text-ink-soft">
+          このサイトでは、閲覧状況を知るために Google アナリティクスを使っています。個人を特定する情報は集めていません。
+        </p>
+      )
+    }
   </div>
 </footer>
 

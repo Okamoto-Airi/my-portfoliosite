@@ -93,6 +93,9 @@ const info = [
                         target="_blank"
                         rel="noopener noreferrer"
                         class="link-button bg-mint text-ink hover:bg-mint-soft"
+                        data-track="work_link_click"
+                        data-track-link-type="demo"
+                        data-track-item-id={entry.id}
                       >
                         <Icon name="external" size={16} />
                         {data.deployLabel ?? '公開サイト'}
@@ -107,6 +110,9 @@ const info = [
                         target="_blank"
                         rel="noopener noreferrer"
                         class="link-button bg-ink text-white hover:bg-ink-soft"
+                        data-track="work_link_click"
+                        data-track-link-type="repo"
+                        data-track-item-id={entry.id}
                       >
                         <Icon name="github" size={16} />
                         {repo.label}
@@ -132,6 +138,9 @@ const info = [
           <Content />
         </div>
       </div>
+
+      <!-- 計測用の目印。ここが画面に入ったら「作品ページを最後まで見た」 -->
+      <div data-track-end="product" data-track-item-id={entry.id} aria-hidden="true"></div>
 
       <nav aria-label="ほかの作品" class="mt-24 grid gap-4 sm:grid-cols-2">
         {
